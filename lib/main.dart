@@ -45,10 +45,12 @@ class JsonLoader {
           ));
         }
       }
-      artistSongs.sort((a, b) => a.name.compareTo(b.name));
-      artists.add(Artist(name: artistName, songs: artistSongs));
-      artists.sort((a, b) => a.name.compareTo(b.name));
+      if (artistSongs.isNotEmpty) {
+        artistSongs.sort((a, b) => a.name.compareTo(b.name));
+        artists.add(Artist(name: artistName, songs: artistSongs));
+      }
     });
+    artists.sort((a, b) => a.name.compareTo(b.name));
 
     return artists;
   }
