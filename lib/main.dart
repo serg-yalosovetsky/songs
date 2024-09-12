@@ -69,12 +69,17 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Список исполнителей',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      title: 'Список виконавців',
+      theme: ThemeData.dark().copyWith(
+        primaryColor: Color(0xFF2BA0DA),
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
-      home: const ArtistListPage(title: 'Список исполнителей'),
+      home: const ArtistListPage(title: 'Список виконавців'),
     );
   }
 }
@@ -124,9 +129,9 @@ class _ArtistListPageState extends State<ArtistListPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Ошибка: ${snapshot.error}'));
+            return Center(child: Text('Помилка: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Нет данных'));
+            return const Center(child: Text('Немає даних'));
           }
 
           allArtists = snapshot.data!;
@@ -138,12 +143,20 @@ class _ArtistListPageState extends State<ArtistListPage> {
                       artist.songs.any((song) => song.name.toLowerCase().contains(searchQuery.toLowerCase())))
                   .toList();
 
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.grey[800],
+            ),
             itemCount: filteredArtists.length,
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(filteredArtists[index].name),
-                subtitle: Text('Песен: ${filteredArtists[index].songs.length}'),
+                subtitle: Text(
+                  'Пісень: ${filteredArtists[index].songs.length}',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -179,7 +192,7 @@ class _ArtistListPageState extends State<ArtistListPage> {
             child: TextField(
               autofocus: true,
               decoration: const InputDecoration(
-                hintText: 'Поиск исполнителей',
+                hintText: 'Поиск виконавців',
                 prefixIcon: Icon(Icons.search),
               ),
               onChanged: (value) {
@@ -235,7 +248,7 @@ class _SongListPageState extends State<SongListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Песни ${widget.artist.name}'),
+        title: Text('Пісні ${widget.artist.name}'),
         actions: [
           if (searchQuery.isNotEmpty)
             IconButton(
@@ -287,7 +300,7 @@ class _SongListPageState extends State<SongListPage> {
             child: TextField(
               autofocus: true,
               decoration: const InputDecoration(
-                hintText: 'Поиск песен',
+                hintText: 'Пошук пісень',
                 prefixIcon: Icon(Icons.search),
               ),
               controller: TextEditingController(text: searchQuery),
@@ -398,7 +411,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Ви натиснули кнопку цього разу:',
             ),
             Text(
               '$_counter',
