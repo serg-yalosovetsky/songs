@@ -168,6 +168,7 @@ class _ArtistListPageState extends State<ArtistListPage> {
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(filteredArtists[index].name),
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 subtitle: Text(
                   'Пісень: ${filteredArtists[index].songs.length}',
                   style: TextStyle(
@@ -209,7 +210,7 @@ class _ArtistListPageState extends State<ArtistListPage> {
             child: TextField(
               autofocus: true,
               decoration: const InputDecoration(
-                hintText: 'Поиск виконавців',
+                hintText: 'Пошук виконавців',
                 prefixIcon: Icon(Icons.search),
               ),
               onChanged: (value) {
@@ -285,11 +286,20 @@ class _SongListPageState extends State<SongListPage> {
           ),
         ],
       ),
-      body: ListView.builder(
+      body: ListView.separated(
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.grey[800],
+        ),
         itemCount: filteredSongs.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(filteredSongs[index].name),
+            title: Text(
+              filteredSongs[index].name,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             onTap: () {
               Navigator.push(
                 context,
