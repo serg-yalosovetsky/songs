@@ -210,7 +210,7 @@ class _ArtistListPageState extends State<ArtistListPage> {
             child: TextField(
               autofocus: true,
               decoration: const InputDecoration(
-                hintText: 'Пошук виконавців',
+                hintText: 'Пошук виконавців та пісень',
                 prefixIcon: Icon(Icons.search),
               ),
               onChanged: (value) {
